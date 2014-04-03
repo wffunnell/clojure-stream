@@ -1,14 +1,12 @@
 # clojure-stream
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library based on HTTP Kit streaming API
 
 ## Usage
 
-FIXME
+Running the server:
+(run-server handler {:port 8080})
 
 ## License
 
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Copyright © 2014 Will Funnell
