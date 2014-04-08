@@ -1,4 +1,4 @@
-(defproject clojure-stream "0.1.0-SNAPSHOT"
+(defproject cljstr "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -8,5 +8,6 @@
                  [http-kit "2.1.18"]
                  [ring/ring-devel "1.2.2"]
                  [compojure "1.1.6"]
-                 [ring-cors "0.1.0"]]
-  :main clojure-stream.server)
+                 [ring-cors "0.1.0"]
+                 [clj-kafka "0.1.2-0.8"]]
+  :main cljstr.server)

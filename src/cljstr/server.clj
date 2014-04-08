@@ -1,8 +1,10 @@
-(ns clojure-stream.server
+(ns cljstr.server
   (:use [compojure.core :only (defroutes GET)]
         ring.util.response
         ring.middleware.cors
-        org.httpkit.server)
+        org.httpkit.server
+        clj-kafka.core
+        clj-kafka.consumer.zk)
   (:require [compojure.route :as route]
             [compojure.handler :as handler]
             [ring.middleware.reload :as reload]
@@ -19,16 +21,23 @@
                                 (swap! clients dissoc con)
                                 (println con " disconnected. status: " status)))))
 
-(future (loop []
-          (doseq [client @clients]
-            (send! (key client) (generate-string
-                                  {:happiness (rand 10)})
-                   false))
-          (Thread/sleep 5000)
-          (recur)))
+(def config {"zookeeper.connect" "localhost:2189"
+             "group.id" "clj-kafka.consumer"
+             "auto.offset.reset" "smallest"
+             "auto.commit.enable" "false"})
+
+
+(future
+  (with-resource [c (consumer config)]
+                shutdown
+                (doseq [m (messages c ["test"])]
+                  (doseq [client @clients]
+                    (send! (key client)
+                           (String. (:value m))
+                           false)))))
 
 (defroutes routes
-           (GET "/happiness" [] ws))
+           (GET "/kafka" [] ws))
 
 (def application (-> (handler/site routes)
                      reload/wrap-reload

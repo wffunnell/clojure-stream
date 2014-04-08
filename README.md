@@ -5,7 +5,7 @@ A Clojure library based on HTTP Kit streaming API
 ## Usage
 
 Running the server:
-(run-server handler {:port 8080})
+(run-server application {:port 8099 :join? false})
 
 ## License
 
